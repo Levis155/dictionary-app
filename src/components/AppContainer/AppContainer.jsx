@@ -14,12 +14,12 @@ function AppContainer() {
     e.preventDefault();
 
     try {
-        setLoading(true);
-        setError(null);
-        setDefinitionData(null); 
-        setWordTitle(null);
-      
-        const response = await fetch(
+      setLoading(true);
+      setError(null);
+      setDefinitionData(null);
+      setWordTitle(null);
+
+      const response = await fetch(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${wordTyped}`
       );
 
@@ -27,13 +27,11 @@ function AppContainer() {
         throw new Error("There was an error please try again");
       }
 
-
       const data = await response.json();
       setDefinitionData(data);
-      setWordTitle(wordTyped)
+      setWordTitle(wordTyped);
       console.log(data);
-    
-    } catch{
+    } catch {
       setError("oops! could not find the definition of that.");
     } finally {
       setLoading(false);
@@ -42,7 +40,7 @@ function AppContainer() {
 
   return (
     <div className="app-container">
-        <p className="copyright-text">&copy; 2025. built by levis. </p>
+      <p className="copyright-text">&copy; 2025. built by levis. </p>
       <form>
         <input
           type="text"
@@ -50,14 +48,22 @@ function AppContainer() {
           onChange={(e) => setWordTyped(e.target.value)}
           placeholder="search word here"
         />
-        <button onClick={handleSearch} disabled={loading}><FaSearch /></button>
+        <button onClick={handleSearch} disabled={loading}>
+          <FaSearch />
+        </button>
       </form>
 
+      {loading && (
+        <div className="loader-container">
+          <MoonLoader color="#24c49e" size={200} />
+        </div>
+      )}
 
-
-      {loading && <div className="loader-container"><MoonLoader color="#24c49e" size={200} /></div>}
-
-      {error && <div className="error-message-container"><h1 className="error-message">{error}</h1></div>}
+      {error && (
+        <div className="error-message-container">
+          <h1 className="error-message">{error}</h1>
+        </div>
+      )}
 
       {!loading && !error && definitionData && (
         <WordCardsContainer definitionData={definitionData} />
@@ -68,7 +74,10 @@ function AppContainer() {
   function WordCardsContainer({ definitionData }) {
     return (
       <div className="word-cards-container">
-        <p className="container-title"><span className="title-span">word: </span>{wordTitle}</p>
+        <p className="container-title">
+          <span className="title-span">word: </span>
+          {wordTitle}
+        </p>
 
         {definitionData[0].meanings.map((meaning, index) => (
           <WordCard
@@ -84,12 +93,13 @@ function AppContainer() {
   }
 
   function WordCard({ index, partOfSpeech, definitions }) {
-    const firstFiveDefinitions = definitions.slice (0, 5);
-
+    const firstFiveDefinitions = definitions.slice(0, 5);
 
     return (
       <div className="word-card">
-        <h2 className="card-title">({index}) {wordTitle} as {partOfSpeech}</h2>
+        <h2 className="card-title">
+          ({index}) {wordTitle} as {partOfSpeech}
+        </h2>
         <ol className="definitions-list">
           {firstFiveDefinitions.map((def, index) => (
             <DefinitionContainer

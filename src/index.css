@@ -1,8 +1,8 @@
 :root {
   --black-color: rgb(46, 56, 65);
-  --black-light:rgb(61, 70, 85);
+  --black-light: rgb(61, 70, 85);
   --green-color: rgb(36, 196, 158);
-  --gray-color:rgb(190, 190, 190);
+  --gray-color: rgb(190, 190, 190);
   --white-color: white;
   --primary-font: "Work Sans", sans-serif;
 }
