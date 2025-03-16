@@ -1,5 +1,10 @@
 :root {
-  --black-color: black;
+  --black-color: rgb(46, 56, 65);
+  --black-light:rgb(61, 70, 85);
+  --green-color: rgb(36, 196, 158);
+  --gray-color:rgb(190, 190, 190);
+  --white-color: white;
+  --primary-font: "Work Sans", sans-serif;
 }
 
 * {
@@ -15,4 +20,5 @@ html {
 body {
   font-size: 1.6rem;
   font-family: var(--primary-font);
+  background-color: rgb(46, 56, 65);
 }

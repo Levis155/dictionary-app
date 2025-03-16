@@ -1,11 +1,7 @@
-import React from 'react'
+import AppContainer from "./components/AppContainer/AppContainer";
 
 function App() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <AppContainer />;
 }
 
-export default App
+export default App;
