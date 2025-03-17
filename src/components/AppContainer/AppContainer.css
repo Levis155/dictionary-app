@@ -73,9 +73,9 @@ svg {
 }
 .word-card {
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 3rem;
   background-color: var(--black-light);
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 .card-title {
   margin-bottom: 1rem;
@@ -83,7 +83,7 @@ svg {
 }
 
 .definitions-list {
-  padding-left: 4.5rem;
+  padding-left: 3rem;
 }
 .definition-container {
   margin-bottom: 1rem;
@@ -94,6 +94,8 @@ svg {
   padding: 0.2rem 1rem;
   border-left: 3px solid var(--green-color);
   font-style: italic;
+  font-weight: 300;
+  font-size: 1.55rem;
 }
 .error-message {
   color: var(--white-color);
