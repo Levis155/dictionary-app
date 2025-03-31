@@ -1,8 +1,11 @@
-# React + Vite
+# Description
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Built this words dictionary app for week 6's weekend assessment at the Teach2Give boot camp. This app performs API calls from an API and utilizes react hooks to manage state.
 
-Currently, two official plugins are available:
+# Interface
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<img src="./src/assets/Screenshot (200).png" alt="">
+
+# Functionality
+
+<img src="./src/assets/Screenshot (201).png" alt="">
