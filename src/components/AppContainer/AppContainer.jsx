@@ -1,98 +1,79 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import "./AppContainer.css";
 import { FaSearch } from "react-icons/fa";
 import MoonLoader from "react-spinners/MoonLoader";
 
 function AppContainer() {
-  const [wordTyped, setWordTyped] = useState("");
-  const [definitionData, setDefinitionData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [wordTitle, setWordTitle] = useState(null);
+  const [searchedWord, setSearchedWord] = useState("");
 
-  async function handleSearch(e) {
-    e.preventDefault();
-
-    try {
-      setLoading(true);
-      setError(null);
-      setDefinitionData(null);
-      setWordTitle(null);
-
-      const response = await fetch(
-        `https://api.dictionaryapi.dev/api/v2/entries/en/${wordTyped}`
+  const { data, isFetching, isError, refetch } = useQuery({
+    queryKey: ["fetch-definition", searchedWord],
+    queryFn: async () => {
+      const response = await axios.get(
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${searchedWord}`
       );
+      console.log(response.data);
+      return response.data;
+    },
+    enabled: false,
+  });
 
-      if (!response.ok) {
-        throw new Error("There was an error please try again");
-      }
-
-      const data = await response.json();
-      setDefinitionData(data);
-      setWordTitle(wordTyped);
-      console.log(data);
-    } catch {
-      setError("oops! could not find the definition of that.");
-    } finally {
-      setLoading(false);
-    }
+  function handleSearch(e) {
+    e.preventDefault();
+    refetch();
   }
 
   return (
     <div className="app-container">
       <p className="copyright-text">&copy; 2025. built by levis. </p>
-      <form>
+      <form onSubmit={handleSearch}>
         <input
           type="text"
-          value={wordTyped}
-          onChange={(e) => setWordTyped(e.target.value)}
+          value={searchedWord}
+          onChange={(e) => setSearchedWord(e.target.value)}
           placeholder="search word here"
         />
-        <button onClick={handleSearch} disabled={loading}>
+        <button disabled={isFetching}>
           <FaSearch />
         </button>
       </form>
 
-      {loading && (
+      {isFetching && (
         <div className="loader-container">
           <MoonLoader color="#24c49e" size={200} />
         </div>
       )}
 
-      {error && (
+      {isError && (
         <div className="error-message-container">
-          <h1 className="error-message">{error}</h1>
+          <h1 className="error-message">something went wrong.</h1>
         </div>
       )}
 
-      {!loading && !error && definitionData && (
-        <WordCardsContainer definitionData={definitionData} />
+      {data && (
+        <div className="word-cards-container">
+          <p className="container-title">
+            <span className="title-span">word: </span>
+            {data[0].word}
+          </p>
+
+          {data[0].meanings.map((meaning, index) => (
+            <WordCard
+              key={index}
+              index={index + 1}
+              wordTitle={data[0].word}
+              partOfSpeech={meaning.partOfSpeech}
+              definitions={meaning.definitions}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
 
-  function WordCardsContainer({ definitionData }) {
-    return (
-      <div className="word-cards-container">
-        <p className="container-title">
-          <span className="title-span">word: </span>
-          {wordTitle}
-        </p>
-
-        {definitionData[0].meanings.map((meaning, index) => (
-          <WordCard
-            key={index}
-            wordSearched={wordTyped}
-            index={index + 1}
-            partOfSpeech={meaning.partOfSpeech}
-            definitions={meaning.definitions}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  function WordCard({ index, partOfSpeech, definitions }) {
+  function WordCard({ index, wordTitle, partOfSpeech, definitions }) {
     const firstFiveDefinitions = definitions.slice(0, 5);
 
     return (
