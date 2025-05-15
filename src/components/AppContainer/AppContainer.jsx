@@ -9,7 +9,7 @@ function AppContainer() {
   const [searchedWord, setSearchedWord] = useState("");
 
   const { data, isFetching, isError, refetch } = useQuery({
-    queryKey: ["fetch-definition", searchedWord],
+    queryKey: ["fetch-definition"],
     queryFn: async () => {
       const response = await axios.get(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${searchedWord}`
@@ -40,19 +40,19 @@ function AppContainer() {
         </button>
       </form>
 
-      {isFetching && (
+      { isFetching && (
         <div className="loader-container">
           <MoonLoader color="#24c49e" size={200} />
         </div>
       )}
 
-      {isError && (
+      {!isFetching &&isError && (
         <div className="error-message-container">
-          <h1 className="error-message">something went wrong.</h1>
+          <h1 className="error-message">could not get the definition</h1>
         </div>
       )}
 
-      {data && (
+      {!isFetching &&!isError &&data && (
         <div className="word-cards-container">
           <p className="container-title">
             <span className="title-span">word: </span>
